@@ -5,20 +5,49 @@
 >
   <mat-toolbar-row>
 
-
-    <button  class="gap" mat-button routerLink="/">
-        <mat-icon>home</mat-icon> 
-      </button> 
-      
-    <button  class="gap" mat-button routerLink="/feedback">
-      <mat-icon>feedback</mat-icon> 
-    </button> 
-
-    <button mat-button routerLink="/login" style="align-items: right;">
-      <mat-icon>power_settings_new</mat-icon>
-      Login
+    <button (click)="logging()" class="gap" mat-button routerLink="/">
+      <mat-icon>home</mat-icon> 
     </button>
 
+    <!--having 'isAuthenticated'|async will change the button accordingly 
+      with regards to the user's authnetication status-->
+    <button
+      class="gap"
+      mat-button
+      routerLink="/feedback"
+      *ngIf="isAuthenticated | async"
+    >
+      feedback
+    </button>
+    
 
+
+    <span class="filler"></span>
+
+    <!--ngif is used with ng-template to show different html.
+    one for when it is logged in 'showLogoutTemplate'
+  another for when user is logged out 'showLoginTemplate'-->
+    <div
+      class="auth"
+      *ngIf="
+        isAuthenticated | async;
+        then showLogoutTemplate;
+        else showLoginTemplate
+      "
+    ></div>
+
+    <ng-template #showLoginTemplate>
+      <button mat-button routerLink="/login" style="align-items: right;">
+        <mat-icon>power_settings_new</mat-icon>
+        Login
+      </button>
+    </ng-template>
+
+    <ng-template #showLogoutTemplate>
+      <button mat-button (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        Logout
+      </button>
+    </ng-template>
   </mat-toolbar-row>
 </mat-toolbar>

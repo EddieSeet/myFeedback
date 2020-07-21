@@ -26,6 +26,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from "@angular/material/checkbox"
 import { CdkTableModule } from '@angular/cdk/table';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
+import { tokenGetter } from './service/helper/jwt.retriever';
 
 
 
@@ -40,7 +44,12 @@ import { CdkTableModule } from '@angular/cdk/table';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-  
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+
+
+
     //angular material
         MatButtonModule,
         MatFormFieldModule,
@@ -57,12 +66,25 @@ import { CdkTableModule } from '@angular/cdk/table';
         MatSelectModule,
         MatOptionModule,
         MatCheckboxModule,
-        CdkTableModule
-    
-    
+        CdkTableModule,
+
+
+        //JWT
+        JwtModule.forRoot({
+          config: {
+            tokenGetter: tokenGetter,
+//            whitelistedDomains: ['localhost:3000'],
+            //blacklist        
+            //blacklistedRoutes: ['localhost:4000/api/auth']
+          }
+        })
   
   ],
-  providers: [],
+  providers: [
+
+
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
