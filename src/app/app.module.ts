@@ -27,10 +27,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from "@angular/material/checkbox"
 import { CdkTableModule } from '@angular/cdk/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule , HTTP_INTERCEPTORS} from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { tokenGetter } from './service/helper/jwt.retriever';
+import { AdminComponent } from './admin/admin.component';
 
+
+
+import {JwtInterceptor} from "./service/helper/JWT.inteceptor"
 
 
 @NgModule({
@@ -38,7 +42,8 @@ import { tokenGetter } from './service/helper/jwt.retriever';
     AppComponent,
     HeaderComponent,
     LoginComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +87,11 @@ import { tokenGetter } from './service/helper/jwt.retriever';
   ],
   providers: [
 
-
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
 
   ],
   bootstrap: [AppComponent]

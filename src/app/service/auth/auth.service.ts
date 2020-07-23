@@ -6,7 +6,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, Observable, Subscription, of, throwError } from 'rxjs';
 import { shareReplay, tap, catchError, delay } from 'rxjs/operators';
-import { User } from '../model/user.model';
+import {User} from "../../model/user.model"
+
 
 @Injectable({
   providedIn: 'root'
