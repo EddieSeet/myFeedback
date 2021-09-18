@@ -1,0 +1,64 @@
+// .stylingcheckbox {
+//   border: 5px solid red;
+// }
+
+.stylingcheckbox:hover div {
+  border: 5px solid black;
+}
+.example-container {
+  width: 500px;
+  height: 300px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 20px;
+}
+
+.option:hover {
+  background-color: lightgrey;
+}
+
+.question {
+  background-color: white;
+  width: 74%;
+  margin-left: auto;
+  margin-right: auto;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.displaydata {
+  background-color: white;
+  width: 74%;
+  margin-left: auto;
+  margin-right: auto;
+
+  align-items: center;
+  justify-content: center;
+}
+//https://stackoverflow.com/questions/48243620/apply-default-style-and-onclick-change-style-of-a-button-angular-4
+// .questiondefault {
+//   border-left: white;
+// }
+
+// .questionselected {
+//   // background-color: lightgrey;
+//   border-left: 0.4em solid blue;
+// }
+
+.singlequestion:hover {
+  background-color: lightgrey;
+}
+
+html {
+  background: lightness($color: #fce9e9);
+}

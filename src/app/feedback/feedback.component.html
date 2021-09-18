@@ -1,1 +1,271 @@
-<p>feedback works!</p>
+<html style="background: #efeaf4">
+  <!-- Right side navigation-->
+  <mat-sidenav-container
+    style="position: fixed; right: 20px; margin-top: 2em; z-index: 0"
+  >
+    <!-- <mat-sidenav>Start</mat-sidenav>
+  <mat-sidenav position="end">End</mat-sidenav> -->
+    <section>panel</section>
+    <div>
+      <!-- add question-->
+      <mat-icon (click)="addquestion()">add_circle</mat-icon>
+    </div>
+  </mat-sidenav-container>
+
+  <!--Todo: header: Survey name and description-->
+
+  <br />
+  <div
+    *ngFor="let item of survey; index as i"
+    class="displaydata"
+    style="cursor: pointer"
+  >
+    <!-- the following is 1 big question-->
+    <div
+      appHighlightOnHover
+      class="question"
+      (click)="checkclick($event, i)"
+      *ngIf="this.currentqn == i"
+    >
+      <!-- 
+  <div
+  appHighlightOnHover
+  class="question"
+  (click)="checkclick($event, i)"
+  (inout)="onClickOutside($event, i)"
+  *ngIf="this.currentqn == i"
+> -->
+      <!--question -->
+      <div>
+        <mat-form-field class="singlequestion" appearance="outline">
+          <input matInput placeholder="question" [(ngModel)]="item.question" />
+        </mat-form-field>
+        <!--selection of question type-->
+        <mat-select
+          (selectionChange)="questiontype($event, i)"
+          style="border-style: solid; width: 30%"
+          class="child"
+          [(ngModel)]="item.questiontype"
+        >
+          <mat-option
+            *ngFor="let questiontype of questiontypes"
+            [value]="questiontype.value"
+            #questiontype
+          >
+            {{ questiontype.viewValue }}
+          </mat-option>
+        </mat-select>
+      </div>
+
+      <!--answers-->
+      <!-- if answer type is mcq-->
+      <div style="clear: both" *ngIf="this.currentqntype === 'Multiplechoice'">
+        <div>
+          <div
+            style="padding-bottom: 0.2em"
+            *ngFor="
+              let multiplechoicex of item.Mfultiplechoice;
+              index as ind;
+              trackBy: trackByIdx
+            "
+          >
+            <mat-radio-button disabled></mat-radio-button>
+            <input
+              style="width: 20%"
+              matInput
+              placeholder="option"
+              [(ngModel)]="item.Multiplechoice[ind]"
+            />
+            <button
+              mat-icon-button
+              class="close-button"
+              (click)="deleteMCQ(i, ind)"
+            >
+              <mat-icon class="close-icon" color="warn"> close </mat-icon>
+            </button>
+            <br />
+          </div>
+
+          <!--Button to create more option for mcq.-->
+          <div (click)="addMCQ(i)">
+            <mat-radio-button disabled></mat-radio-button>
+            <input
+              style="width: 20%"
+              matInput
+              placeholder="Add Option"
+              disabled
+            />
+            or
+            <div class="option" style="color: blue; display: inline-block">
+              Add 'Other'
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- if answer type is checkbox-->
+      <div style="clear: both" *ngIf="this.currentqntype === 'Checkbox'">
+        <div>
+          <div *ngFor="let x of item.Checkbox; index as ind">
+            <mat-checkbox disabled></mat-checkbox>
+
+            <!-- <mat-form-field appearance="outline" style="height: 16px"> -->
+            <input
+              style="width: 20%; padding-bottom: 0.5em; padding-left: 2em"
+              matInput
+              placeholder="checkbox value"
+            />
+            <!-- </mat-form-field> -->
+            <button
+              mat-icon-button
+              class="close-button"
+              (click)="deleteCheckbox(i, ind)"
+            >
+              <mat-icon class="close-icon" color="warn"> close </mat-icon>
+            </button>
+            <br />
+          </div>
+
+          <mat-form-field appearance="outline">
+            <input
+              aria-disabled="true"
+              matInput
+              placeholder="checkbox value"
+              (click)="addCheckbox(i)"
+            />
+            add checkbox
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!--below-->
+      <div>
+        <!--delete question-->
+        <mat-icon (click)="deleteQuestion(i)"> delete </mat-icon> |
+        <!--required question-->
+        <mat-slide-toggle [(ngModel)]="isChecked"> Required </mat-slide-toggle>
+      </div>
+      <!--end of below-->
+    </div>
+
+    <!-- display data-->
+    <div
+      *ngIf="this.currentqn !== i"
+      click-outside
+      (click)="checkclick($event, i)"
+      style="
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        padding-top: 2em;
+        background-clip: content-box;
+        box-shadow: inset 0 10 0 10px white;
+      "
+    >
+      {{ item.question }}
+      <div *ngIf="'Checkbox'; in: item">
+        <div *ngFor="let x of item.Checkbox; index as ind">
+          <mat-checkbox disabled></mat-checkbox>
+          <input
+            style="width: 20%; padding-bottom: 0.5em; padding-left: 2em"
+            matInput
+            [(ngModel)]="item.Checkbox[ind]"
+          />
+        </div>
+      </div>
+
+      <!--displaying multiplechoice-->
+      <div
+        *ngIf="'Multiplechoice'; in: item"
+        style="padding-top: 1em; padding-bottom: 1em"
+      >
+        <div *ngFor="let multiplechoicex of item.Multiplechoice; index as ind">
+          <mat-radio-button disabled></mat-radio-button>
+          <input
+            style="width: 20%"
+            matInput
+            [(ngModel)]="item.Multiplechoice[ind]"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <br />
+
+  <div>
+    <button (click)="check()">clicktocheck</button>
+  </div>
+
+  <!-- <form class="example-form" [formGroup]="formGroup" (ngSubmit)="onFormSubmit()" ngNativeValidate> 
+
+
+    <div>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="question" formControlName="question">
+        </mat-form-field>
+    </div>
+
+    <div >
+        <div>  <input  placeholder="checkbox1">  </div>
+        <div (click) = "addcheckbox()" >  <input  placeholder="add option?" formControlName= "add option">  </div>
+    </div>
+
+ <section class="example-section" [formGroup]="toppings">
+        <h4>Select your toppings:</h4>
+        <p><mat-checkbox formControlName="pepperoni" [{ngModel}]= "checkbox1" ></mat-checkbox></p>
+        <p><mat-checkbox formControlName="extracheese"[{ngModel}]="checkbox2"  ></mat-checkbox></p>
+    </section>
+      
+    <section class="example-section" [formGroup]="toppings">
+        <h4>You chose:</h4>
+        {{toppings.value | json}}
+    </section> 
+
+
+  <mat-select>
+    <mat-option value="one">multiple choice</mat-option>
+    <mat-option value="two">checkbox</mat-option>
+  </mat-select>
+
+
+  <mat-slide-toggle [(ngModel)]="isChecked" formControlName="isRequired">Required</mat-slide-toggle>
+ <p>Form Group Status: {{formGroup.status}}</p> 
+
+   <button id="basic" type="button" mat-button (click)="addQuestion()">
+    Adding question
+  </button> 
+
+  <button mat-raised-button type="submit">Save Settings</button>
+</form>-->
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  random temporary filler content
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  random temporary filler content
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+
+  <br />
+  <br />
+  random temporary filler content
+  <br />
+  <br />
+</html>
