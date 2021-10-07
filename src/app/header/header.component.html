@@ -1,16 +1,26 @@
 <mat-toolbar
   color="primary"
   class="expanded-toolbar"
-  style="position: relative"
+  style="position: relative;"
 >
   <mat-toolbar-row>
+
     <button (click)="logging()" class="gap" mat-button routerLink="/">
-      <mat-icon>home</mat-icon>
+      <mat-icon>home</mat-icon> 
     </button>
 
     <!--having 'isAuthenticated'|async will change the button accordingly 
       with regards to the user's authnetication status-->
-    <button class="gap" mat-button routerLink="/feedback">feedback</button>
+    <button
+      class="gap"
+      mat-button
+      routerLink="/feedback"
+      *ngIf="isAuthenticated | async"
+    >
+      feedback
+    </button>
+    
+
 
     <span class="filler"></span>
 
@@ -27,7 +37,7 @@
     ></div>
 
     <ng-template #showLoginTemplate>
-      <button mat-button routerLink="/login" style="align-items: right">
+      <button mat-button routerLink="/login" style="align-items: right;">
         <mat-icon>power_settings_new</mat-icon>
         Login
       </button>
